@@ -1,5 +1,4 @@
-// app/api/webhook/route.ts
-
+// app/api/webhook/route.ts (CORRECTED)
 import { NextResponse } from 'next/server';
 import { connectDB, Order } from '@/lib/db';
 import Stripe from 'stripe';
@@ -78,9 +77,5 @@ export async function POST(req: Request) {
     return NextResponse.json({ received: true });
 }
 
-// Disable body parsing to let Stripe handle the raw request
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+// Disable body parsing *this* way:
+export const bodyParser = false;
