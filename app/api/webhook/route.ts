@@ -79,3 +79,6 @@ export async function POST(req: Request) {
 
 // Disable body parsing *this* way:
 export const bodyParser = false;
+
+// EXPLICITLY set the Node.js runtime:
+export const runtime = 'nodejs';
