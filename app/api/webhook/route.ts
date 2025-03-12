@@ -77,10 +77,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ received: true });
 }
 
-// Route segment config:
+// Route segment config:  ALL config options go inside this object.
 export const config = {
-    api: {
-        bodyParser: false, // Disable body parsing
-    },
-    runtime: 'nodejs', // Use Node.js runtime
+  api: {
+    bodyParser: false, // Disable body parsing
+  },
+  runtime: 'nodejs', // Use Node.js runtime
 };
