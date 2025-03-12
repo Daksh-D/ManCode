@@ -77,8 +77,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ received: true });
 }
 
-// Disable body parsing *this* way:
-export const bodyParser = false;
-
-// EXPLICITLY set the Node.js runtime:
-export const runtime = 'nodejs';
+// Route segment config:
+export const config = {
+    api: {
+        bodyParser: false, // Disable body parsing
+    },
+    runtime: 'nodejs', // Use Node.js runtime
+};
