@@ -1,16 +1,18 @@
-// File: app/api/products/search/route.ts
+// app/api/products/search/route.ts
 import { NextResponse } from 'next/server';
 import { connectDB, Product } from '@/lib/db';
-import { headers } from 'next/headers';
+
 
 connectDB();
 
+export const dynamic = 'force-dynamic'; // ADD THIS LINE
+
 export async function GET(request: Request) {
   try {
-    const { searchParams } = new URL(request.url)
+    const { searchParams } = new URL(request.url) // Use searchParams directly
     const q = searchParams.get('q');
 
-    if (typeof q !== 'string') {
+    if (typeof q !== "string") {
       return NextResponse.json({ message: 'Query parameter "q" must be a string' }, { status: 400 });
     }
     const query = new RegExp(q, 'i'); // 'i' for case-insensitive

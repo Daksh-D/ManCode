@@ -1,34 +1,25 @@
-// app/api/products/search/route.ts (CORRECTED)
-
+// app/api/admin/users/route.ts
 import { NextResponse } from 'next/server';
-import { connectDB, Product } from '@/lib/db';
+import { connectDB, User} from '@/lib/db';
+import { headers } from 'next/headers';  // Import headers
 
 connectDB();
 
-export const dynamic = 'force-dynamic'; // Add this line
+export const dynamic = 'force-dynamic'; // ADD THIS LINE
 
 export async function GET(request: Request) {
   try {
-    const { searchParams } = new URL(request.url) // Use searchParams directly
-    const q = searchParams.get('q');
+     const headersList = headers();
+    const userRole = headersList.get("x-user-role");
 
-
-    if (typeof q !== "string") {
-      return NextResponse.json({ message: 'Query parameter "q" must be a string' }, { status: 400 });
+    if (userRole !== "admin") {
+      return NextResponse.json({ message: "Forbidden" }, {status: 403});
     }
-    const query = new RegExp(q, 'i'); // 'i' for case-insensitive
-    const products = await Product.find({
-      $or: [
-        { name: query },
-        { description: query },
-        { category: query },
-        // Add other fields to search as needed
-      ],
-    });
-    return NextResponse.json(products);
 
+    const users = await User.find().select("-passwordHash"); //Don't send password
+    return NextResponse.json(users);
   } catch (error: any) {
-    console.error('Error searching products:', error);
-    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+    console.error("Error fetching admin users:", error);
+    return NextResponse.json({ message: error.message }, { status: 500 });
   }
 }
