@@ -1,3 +1,4 @@
+//scripts/seed.ts
 // File: scripts/seed.ts
 import mongoose from 'mongoose';
 import { connectDB, Product, IProduct } from '../lib/db'; // Corrected import
@@ -33,7 +34,7 @@ const seedDB = async () => {
             products.push(generateFakeProduct() as IProduct); //we need to cast it as IProduct
         }
 
-        await Product.insertMany(products);
+        await Product.insertMany(products);  // Added await
         console.log('Products seeded successfully!');
 
     } catch (error) {

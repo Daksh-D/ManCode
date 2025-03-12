@@ -1,14 +1,17 @@
-// File: app/api/admin/stats/route.ts
+// app/api/admin/stats/route.ts (CORRECTED)
 import { NextResponse } from 'next/server';
 import { connectDB, User, Product, Order } from '@/lib/db';
-import { headers } from 'next/headers';
+import { headers } from 'next/headers'; // Import headers
 
 connectDB();
 
+export const dynamic = 'force-dynamic'; // THIS IS IMPORTANT
+
 export async function GET(request: Request) {
   try {
-     const headersList = headers();
-    const userRole = headersList.get("x-user-role");
+    const headersList = headers(); // Use headers()
+    const userRole = headersList.get("x-user-role"); // Get role
+
     if (userRole !== "admin") {
       return NextResponse.json({ message: "Forbidden" }, {status: 403});
     }
